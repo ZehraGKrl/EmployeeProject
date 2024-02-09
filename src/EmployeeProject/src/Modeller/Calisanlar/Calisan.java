@@ -8,8 +8,9 @@ public class Calisan {
     private String calisanId;
     private String adSoyad;
     private int maas;
-    private Departman Departman;
+    private Departman departman;
     private String isimKodu = "";
+    private static int calisanSayisi = 0;
 
     public Calisan(String adSoyad, int maas, String departmanKodu) {
         this.adSoyad = adSoyad;
@@ -38,6 +39,12 @@ public class Calisan {
         //  İpucu: Departman listesinin (Veritabani.Departmanlar.DepartmanList) içerisindeki departmanların kodları var,
         //  bu kodlari donguye tutmak ise yarayabilir.
 
+        for (Departman dep : Veritabani.Departmanlar.getDepartmanList()) {
+            if (dep.getDepartmanKodu().equals(departman)) {
+                this.departman = dep;
+                break;
+            }
+
 
 
     }
@@ -48,6 +55,12 @@ public class Calisan {
         // Calisanin ID sinin kendisine özel olduğundan bahsetmistik,
         // ID nin nasil kaydedileceği Readme Dosyasi içerisinde yer aliyor.
 
+            String departmanKodu = this.departman.getDepartmanKodu();
+            String isimKodu = getCalisanIsimKodu();
+            this.calisanId = departmanKodu + isimKodu + (calisanSayisi + 1);
+            calisanSayisi++;
+            // her yeni çalışan eklendiğinde bu sayıyı güncelleyecek ve çalışanlara eşsiz bir ID atayacak
+
 
 
     }
@@ -57,6 +70,8 @@ public class Calisan {
         // Calisanin ID sinin sonuna isim kodu eklenmesi için, ismi parçalayan bir method
         // Basit string metodlari ise isinize cok yarayacaktir fakat dinamik olmasina dikkat edelim...
         // Mesela 2 isim bir soyisim girildiğinde hata vermesin.
+
+
 
 
 
@@ -73,7 +88,7 @@ public class Calisan {
 
     // Calisanin departmanini almak icin basit getter method
     public Departman getDepartman() {
-        return this.Departman;
+        return this.departman;
     }
 
 
@@ -82,6 +97,18 @@ public class Calisan {
 
         // TODO getDepartmanAdi() methodunu doldurunuz
         // İpucu: Departman Kodu YD ise departman adi Yonetim Departmani olarak kaydedilmelidir.
+
+            String departmanKodu;
+            switch (departmanKodu) {
+                case "YD":
+                    return "Yonetim Departmani";
+                case "İK":
+                    return "İnsan KAynakları Departmanı";
+                case "BK":
+                    return "Bilişim Teknolojileri Departmanı";
+                default:
+                    return "Bilinmeyen Departman";
+            }
 
 
 
